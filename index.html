@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="styles.css">
+	<title>Weather Widget</title>
+</head>
+
+<body>
+	<div class="weather-widget">
+		<div class="header">
+			<h1 class="widget-title">Weather App ⛅️</h1>
+			<form class="search-form">
+				<div class="input-container">
+					<input class='input-value' type="text" placeholder="Search city">
+					<button type="submit" class="search-button"><img src="img/search-icon.png" alt="Search"></button>
+				</div>
+			</form>
+		</div>
+		<div class="weather-info">
+			<div class="left-column">
+				<div class="temperature">0°C</div>
+				<div class="city"></div>
+				<div class="add-favorite">
+					<button class="favorite-button"><img src="img/favourite.png" alt="Favorite"></button>
+				</div>
+			</div>
+			<div class="right-column">
+				<img class='weather-icon' src="img/cloud-icon.png" alt="Cloudy">
+				<div class="condition"></div>
+			</div>
+		</div>
+
+		<div class="locations">
+			<h2 class="locations-title">Added Locations:</h2>
+			<ul class="locations-list">
+			</ul>
+		</div>
+	</div>
+	<script src='main.js'></script>
+</body>
+
+</html>
