@@ -6,6 +6,7 @@ const weatherIcon = document.querySelector('.weather-icon')
 const condition = document.querySelector('.condition')
 const locationList = document.querySelector('.locations-list')
 const favoriteButton = document.querySelector('.favorite-button')
+// const location = document.querySelector('.location')
 
 let cities = []
 
@@ -14,14 +15,14 @@ function getCity(cityName) {
 	const apiKey = 'f660a2fb1e4bad108d6160b7f58c555f'
 	const url = `${serverUrl}?q=${cityName}&appid=${apiKey}&units=metric`
 
-	return fetch(url).then(reponse => {
-		if (reponse.status === 404) {
-			alert(new Error('Такой страны не существет'))
+	return fetch(url).then(response => {
+		try {
+			if (response.ok) {
+				return response.json()
+			}
+		} catch (error) {
+			throw new Error(error)
 		}
-		if (cityName.length === 0) {
-			throw new Error("City name it' is too short")
-		}
-		return reponse.json()
 	})
 }
 
@@ -32,20 +33,29 @@ searchForm.addEventListener('submit', event => {
 
 	getCity(cityName)
 		.then(response => {
-			temperature.textContent = `${Math.round(response.main.temp)}°C`
-			city.textContent = response.name
-			weatherIcon.src = `https://openweathermap.org/img/wn/${response.weather[0].icon}@4x.png`
-			condition.textContent = `${response.weather[0].main}, ${response.weather[0].description}`
+			splitFunc(
+				`${Math.round(response.main.temp)}°C`,
+				response.name,
+				`https://openweathermap.org/img/wn/${response.weather[0].icon}@4x.png`,
+				`${response.weather[0].main}, ${response.weather[0].description}`
+			)
 			console.log(response)
 		})
 		.catch(error => {
-			console.log(error)
+			console.error(error)
 		})
 	inputValue.value = ''
 })
 
 function addCity(targetCity) {
 	cities.push(targetCity)
+}
+
+function splitFunc(temp, name, icon, info) {
+	temperature.textContent = temp
+	city.textContent = name
+	weatherIcon.src = icon
+	condition.textContent = info
 }
 
 function createElement() {
@@ -64,6 +74,20 @@ function createElement() {
 			cities = cities.filter((item, idx) => idx !== index)
 			createElement()
 			console.log(cities)
+		})
+	})
+
+	let currentCity = document.querySelectorAll('.location')
+	currentCity.forEach(city => {
+		city.addEventListener('click', () => {
+			getCity(city.textContent).then(response => {
+				splitFunc(
+					`${Math.round(response.main.temp)}°C`,
+					response.name,
+					`https://openweathermap.org/img/wn/${response.weather[0].icon}@4x.png`,
+					`${response.weather[0].main}, ${response.weather[0].description}`
+				)
+			})
 		})
 	})
 }

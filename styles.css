@@ -155,3 +155,7 @@ body {
 	width: 75px;
 	border: 1px solid #fff;
 }
+
+.location {
+	cursor: pointer;
+}
