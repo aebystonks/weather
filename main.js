@@ -7,7 +7,7 @@ const condition = document.querySelector('.condition')
 const locationList = document.querySelector('.locations-list')
 const favoriteButton = document.querySelector('.favorite-button')
 
-const cities = []
+let cities = []
 
 function getCity(cityName) {
 	const serverUrl = 'http://api.openweathermap.org/data/2.5/weather'
@@ -50,7 +50,7 @@ function addCity(targetCity) {
 
 function createElement() {
 	locationList.textContent = ''
-	cities.forEach(element => {
+	cities.forEach((element, index) => {
 		const newLocation = document.createElement('li')
 		const deleteButton = document.createElement('img')
 		newLocation.className = 'location'
@@ -59,6 +59,12 @@ function createElement() {
 		deleteButton.src = 'img/delete-icon.png'
 		newLocation.append(deleteButton)
 		locationList.append(newLocation)
+
+		deleteButton.addEventListener('click', () => {
+			cities = cities.filter((item, idx) => idx !== index)
+			createElement()
+			console.log(cities)
+		})
 	})
 }
 
